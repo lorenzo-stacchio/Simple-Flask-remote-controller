@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+
+    <style>
+      #touch-area {
+        width: 900px;
+        height: 600px;
+        background-color: lightgray;
+        position: relative;
+      }
+      #pointer {
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div id="touch-area">
+      <div id="pointer"></div>
+    </div>
+    <div id="click" style="width: 600px; height: 400px;">
+      <button onclick="socket.emit('left_click');" style="width: 100%; height: 100%;">Click</button>
+    </div>
+    <script>
+      var socket = io.connect('http://{{ip}}:5000');
+
+      var touchArea = document.getElementById("touch-area");
+      var pointer = document.getElementById("pointer");
+
+      var start_x = null;
+      var start_y  = null;
+      var curr_x = null;
+      var curr_y  = null;
+
+      //MOBILE
+      touchArea.addEventListener("touchstart", function(event) {
+        var touch = event.touches[0];
+        start_x = touch.clientX;
+        start_y = touch.clientY;
+
+        pointer.style.left = start_x + "px";
+        pointer.style.top = start_y + "px";
+
+        console.log("Touch start to (" + x + ", " + y + ")");
+      });
+
+      touchArea.addEventListener("touchmove", function(event) {
+        var touch = event.touches[0];
+        curr_x = touch.clientX;
+        curr_y = touch.clientY;
+      });
+
+      touchArea.addEventListener("touchend", function(event) {
+      
+        pointer.style.left = curr_x + "px";
+        pointer.style.top = curr_y + "px";
+        socket.emit('move_mouse_offset', {x_start: start_x,x_end: curr_x, 
+          y_start:start_y, y_end: curr_y, width:600, height:400});
+
+        start_x = touch.clientX;
+        start_y = touch.clientY;
+
+        console.log("Touch moved to (" + x + ", " + y + ")");
+      });
+
+    </script>
+  </body>
+</html>

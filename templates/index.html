@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+    <script>
+      console.log("{{ip}}")
+      var socket = io.connect('http://{{ip}}:5000');
+      
+      function moveMouse(x, y) {
+        socket.emit('move', {x: x, y: y});
+      }
+      
+      function leftClick() {
+        socket.emit('left_click');
+      }
+      
+      function rightClick() {
+        socket.emit('right_click');
+      }
+    </script>
+  </head>
+  <body>
+
+    PORCOOOOOOOOOO
+    <button onclick="moveMouse(50, 50)">Move</button>
+    
+  </body>
+</html>

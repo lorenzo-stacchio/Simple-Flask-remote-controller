@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #mouse-area {
+        width: 60%;
+        height: 30%;
+        background-color: lightgray;
+        position: relative;
+      }
+      #mouse-pointer {
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mouse-area">
+      <div id="mouse-pointer"></div>
+    </div>
+    <script>
+      var mouseArea = document.getElementById("mouse-area");
+      var mousePointer = document.getElementById("mouse-pointer");
+
+      mouseArea.addEventListener("mousemove", function(event) {
+        var x = event.clientX;
+        var y = event.clientY;
+        mousePointer.style.left = x + "px";
+        mousePointer.style.top = y + "px";
+        console.log("Mouse moved to (" + x + ", " + y + ")");
+      });
+    </script>
+  </body>
+</html>
